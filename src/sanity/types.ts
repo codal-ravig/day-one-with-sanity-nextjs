@@ -76,7 +76,8 @@ export type Event = {
   _rev: string;
   name?: string;
   slug?: Slug;
-  eventType?: "concert" | "festival" | "conference" | "other";
+  eventType?: "concert" | "festival" | "conference" | "other" | "in-person" | "virtual";
+  format?: "concert" | "festival" | "conference" | "other" | "in-person" | "virtual";
   date?: string;
   doorsOpen?: number;
   venue?: {
@@ -121,6 +122,27 @@ export type Event = {
     _key: string;
   }>;
   tickets?: string;
+};
+
+export type Artist = {
+  _id: string;
+  _type: "artist";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  description?: string;
+  photo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
 };
 
 export type SanityImageCrop = {
@@ -180,15 +202,6 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type Artist = {
-  _id: string;
-  _type: "artist";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-};
-
 export type Venue = {
   _id: string;
   _type: "venue";
@@ -196,6 +209,17 @@ export type Venue = {
   _updatedAt: string;
   _rev: string;
   name?: string;
+  city?: string;
+  country?: string;
+};
+
+export type MediaTag = {
+  _id: string;
+  _type: "media.tag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: Slug;
 };
 
 export type Slug = {
@@ -204,7 +228,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Event | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Artist | Venue | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Event | Artist | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Venue | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../day-one-with-sanity-nextjs/src/app/page.tsx
 // Variable: EVENTS_QUERY
@@ -230,7 +254,8 @@ export type EVENT_QUERYResult = {
   _rev: string;
   name?: string;
   slug?: Slug;
-  eventType?: "concert" | "conference" | "festival" | "other";
+  eventType?: "concert" | "conference" | "festival" | "in-person" | "other" | "virtual";
+  format?: "concert" | "conference" | "festival" | "in-person" | "other" | "virtual";
   date: string;
   doorsOpen: number | 0;
   venue: {
@@ -240,6 +265,8 @@ export type EVENT_QUERYResult = {
     _updatedAt: string;
     _rev: string;
     name?: string;
+    city?: string;
+    country?: string;
   } | null;
   headline: {
     _id: string;
@@ -248,6 +275,18 @@ export type EVENT_QUERYResult = {
     _updatedAt: string;
     _rev: string;
     name?: string;
+    description?: string;
+    photo?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
   } | null;
   image?: {
     asset?: {

@@ -42,11 +42,12 @@ export default async function EventPage({
     headline,
     image,
     details,
-    eventType,
+    format,
     doorsOpen,
     venue,
     tickets,
   } = event;
+  console.log(event)
   const eventImageUrl = image
     ? urlFor(image)?.width(550).height(310).url()
     : null;
@@ -73,9 +74,9 @@ export default async function EventPage({
         />
         <div className="flex flex-col justify-center space-y-4">
           <div className="space-y-4">
-            {eventType ? (
+            {format ? (
               <div className="inline-block rounded-lg bg-green-500 px-3 py-1 text-sm text-white capitalize">
-                {eventType.replace("-", " ")}
+                {format.replace("-", " ")}
               </div>
             ) : null}
             {name ? (
